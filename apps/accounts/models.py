@@ -24,10 +24,13 @@ class CustomUser(AbstractUser):
     
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    avatar  = models.ImageField(upload_to='profile/',default='avtar.jpg')
+    avatar  = models.ImageField(upload_to='profile/',default='profile/avtar.png')
     fname = models.CharField(max_length=50,null=True,blank=True)
     lname = models.CharField(max_length=50,null=True,blank=True)
     contact = models.CharField(max_length=10,null=True,blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
     def __str__(self):
         return f"{self.user.username} {self.fname} {self.lname}"

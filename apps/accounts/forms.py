@@ -24,8 +24,16 @@ class LoginForm(AuthenticationForm):
         widget=forms.PasswordInput()
     )
 
-class ProfileForm(Profile):
-
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar','fname','lname','contact']
+        widgets = {
+            'avatar': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['avatar'].help_text = None  # Remove help text
+        self.fields['avatar'].widget.clear_checkbox_label = ''  # Remove "Clear" checkbox label
+        self.fields['avatar'].widget.initial_text = ''

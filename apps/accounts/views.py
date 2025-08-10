@@ -1,5 +1,6 @@
-from django.shortcuts import render,redirect
-from .forms import UserRegisterForm,LoginForm
+from django.shortcuts import render,redirect,get_object_or_404
+from .models import CustomUser,Profile
+from .forms import UserRegisterForm,LoginForm,ProfileForm
 from django.contrib.auth import login,logout
 from django.contrib import messages
 
@@ -39,3 +40,20 @@ def logout_user(request):
     logout(request)
     messages.success(request,"user logged out")
     return redirect('login')
+
+def view_update_user_profile(request):
+    user = request.user
+    profile = get_object_or_404(Profile, user=user)
+    
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)  
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully")
+            return redirect('profile')
+        else:
+            messages.error(request, "Unable to update profile, try again")
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'accounts/user_profile.html', {'form': form, 'profile': profile})
