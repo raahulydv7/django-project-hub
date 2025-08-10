@@ -3,6 +3,7 @@ from .models import CustomUser,Profile
 from .forms import UserRegisterForm,LoginForm,ProfileForm
 from django.contrib.auth import login,logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def root(request):
     return render(request,'accounts/root.html')
@@ -41,6 +42,7 @@ def logout_user(request):
     messages.success(request,"user logged out")
     return redirect('login')
 
+@login_required
 def view_update_user_profile(request):
     user = request.user
     profile = get_object_or_404(Profile, user=user)

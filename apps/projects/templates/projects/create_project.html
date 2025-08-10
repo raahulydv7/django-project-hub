@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Register
+{% endblock %}
+
+{% block content %}
+  <main class="form-signin w-100 mt-5 m-auto d-flex align-items-center justify-content-center">
+    <div class="card shadow p-4" style="width: 20rem;">
+      <div>
+        <form method="post" novalidate> 
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit" class="btn btn-primary w-100 mt-2">Register</button>
+        </form>
+      </div>
+      <div class="card-footer mt-2">
+        <small>
+          Back to Projects
+          <a href="">Back</a>
+        </small>
+      </div>
+    </div>
+  </main>
+{% endblock %}
